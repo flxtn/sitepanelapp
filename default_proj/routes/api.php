@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\HostingController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ParsedInfoController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ Route::post('two-factor-login', [AuthController::class, 'TwoFactorLogin']);
 
 Route::middleware("api")->group(function(){
     Route::get('/sites', [IndexController::class, 'index']);
+    Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/domains', [DomainController::class, 'index']);
     Route::get('/getme', [AuthController::class, 'GetMe']);
     Route::post('/create-domain', [DomainController::class, 'create']);
@@ -36,4 +38,5 @@ Route::middleware("api")->group(function(){
     Route::put('/hostings/{id}', [HostingController::class, 'update']);
     Route::post('/create-site', [IndexController::class, 'create_item']);
     Route::get('/search-site', [IndexController::class, 'search']);
+    Route::get('/site/{id}', [ParsedInfoController::class, 'getRecord']);
 });

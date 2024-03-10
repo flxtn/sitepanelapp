@@ -17,7 +17,8 @@ export type Site = {
 };
 
 export function Sites() {
-  const { sites, siteData, searchData, setSearchData, handleSearchSite } = useSites();
+  const { sites, siteData, searchData, setSearchData, handleSearchSite } =
+    useSites();
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSearchData({ ...searchData, [e.target.name]: e.target.value });
@@ -41,14 +42,16 @@ export function Sites() {
       <div className="flex items-center justify-end w-full mb-2">
         <UiTextField
           className="mr-2"
-          inputProps={{ onChange: handleInputChange, name: 'searchText' }}
+          inputProps={{ onChange: handleInputChange, name: "searchText" }}
         />
         <UiSelectField
           options={["", "domain", "description", "hosting"]}
-          selectProps={{ onChange: handleSelectChange, name: 'columnName' }}
+          selectProps={{ onChange: handleSelectChange, name: "columnName" }}
           className="mr-2"
         />
-        <UiButton variant="secondary" onClick={handleSearchSite}>Search</UiButton>
+        <UiButton variant="secondary" onClick={handleSearchSite}>
+          Search
+        </UiButton>
       </div>
       <div className="w-full overflow-hidden overflow-y-auto">
         <table className="bg-white divide-y divide-gray-300 w-full">
@@ -69,7 +72,11 @@ export function Sites() {
               <tr key={item.id} className="border-t border-gray-400">
                 <td className={tdStyle}>{item.domain}</td>
                 <td className={tdStyle}>{item.description}</td>
-                <td className={tdStyle}>{item.queries}</td>
+                <td className={tdStyle}>
+                  <Link href={`/${item.id}`}>
+                    <span className="underline">{item.queries}</span>
+                  </Link>
+                </td>
                 <td className={tdStyle}>{item.hosting}</td>
                 <td className={tdStyle}>{item.status}</td>
                 <td className={tdStyle}></td>

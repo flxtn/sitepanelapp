@@ -51,6 +51,10 @@ class AuthController extends Controller
         return response()->json(['valid' => false], 401);
     }
 
+    public function logout(): JsonResponse
+    {
+        return response()->json(['message' => 'logout success']);
+    }
 
     public function EnableTwoFa(CodeRequest $request): JsonResponse
     {
