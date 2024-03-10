@@ -3,8 +3,11 @@ import { UiButton } from "@/shared/ui/ui-button";
 import { useSites } from "./model/use-sites";
 import { useEffect } from "react";
 import Link from "next/link";
+import { UiTextField } from "@/shared/ui/ui-text-field";
+import { UiSelectField } from "@/shared/ui/ui-select-field";
+import { ChangeEvent } from "react";
 
-type Site = {
+export type Site = {
   id: string;
   queries: number;
   hosting: string;
@@ -14,7 +17,17 @@ type Site = {
 };
 
 export function Sites() {
-  const { sites, siteData } = useSites();
+  const { sites, siteData, searchData, setSearchData, handleSearchSite } = useSites();
+
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSearchData({ ...searchData, [e.target.name]: e.target.value });
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchData({ ...searchData, [e.target.name]: e.target.value });
+  };
+
+  console.log(searchData);
 
   useEffect(() => {
     siteData();
@@ -26,15 +39,24 @@ export function Sites() {
         <span className="text-3xl text-gray-700">Sites</span>
       </div>
       <div className="flex items-center justify-end w-full mb-2">
-        <UiButton variant="secondary">Search</UiButton>
+        <UiTextField
+          className="mr-2"
+          inputProps={{ onChange: handleInputChange, name: 'searchText' }}
+        />
+        <UiSelectField
+          options={["", "domain", "description", "hosting"]}
+          selectProps={{ onChange: handleSelectChange, name: 'columnName' }}
+          className="mr-2"
+        />
+        <UiButton variant="secondary" onClick={handleSearchSite}>Search</UiButton>
       </div>
       <div className="w-full overflow-hidden overflow-y-auto">
         <table className="bg-white divide-y divide-gray-300 w-full">
           <thead className="bg-gray-200">
             <tr>
-              <Link href="/create-site">
-                <th className={thStyle}>Domain</th>
-              </Link>
+              <th className={thStyle}>
+                <Link href="/create-site">Domain</Link>
+              </th>
               <th className={thStyle}>Description</th>
               <th className={thStyle}>Records</th>
               <th className={thStyle}>Hosting</th>

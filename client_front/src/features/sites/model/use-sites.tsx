@@ -1,22 +1,50 @@
 import axiosInstance from "@/shared/api/api-instance";
 import { useState } from "react";
+import { Site } from "../sites";
 
-export function useSites(){
+enum ColumnName {
+  Domain = 'domain',
+  Hosting = 'hosting',
+  Description = 'description',
+}
 
-    const [sites, setSites] = useState([]);
+interface SearchData {
+  searchText: string;
+  columnName: ColumnName;
+}
 
-    const siteData = async () => {
-        try {
-          const response = await axiosInstance.get("sites");
-          setSites(response.data.sites);
-        } catch (error) {
-          console.error("error", error);
-        }
-      };
+export function useSites() {
+  const [sites, setSites] = useState([]);
+  const [searchData, setSearchData] = useState<SearchData>({
+    searchText: "",
+    columnName: ColumnName.Domain,
+  });
 
+  const siteData = async () => {
+    try {
+      const response = await axiosInstance.get("sites");
+      setSites(response.data.sites);
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
 
-      return {
-        sites,
-        siteData
-      }
+  const handleSearchSite = () => {
+    if (searchData.searchText === ''){
+      siteData()
+      return 
+    }
+    const newSites = sites?.filter((item: Site) =>
+      item[searchData.columnName].includes(searchData.searchText)
+    );
+    setSites(newSites);
+  };
+
+  return {
+    sites,
+    siteData,
+    searchData,
+    setSearchData,
+    handleSearchSite,
+  };
 }

@@ -32,7 +32,9 @@ export function SignUpForm() {
   const handleQrCode = async () => {
     try {
       const response = await axiosInstance.post("/two-factor-qr", {code: code, email: formData.email });
-      router.push('/signin')
+      if (response.data.message === "registered successfuly"){
+        router.push('/signin') 
+      }
     } catch (error) {
       console.error("wronge code", error);
     }
