@@ -26,6 +26,10 @@ export function SignInForm() {
   const handleQrCode = async () => {
     try {
       const response = await axiosInstance.post("/two-factor-login", {code: code, email: formData.email });
+      if (response.status === 204){
+        router.push('/notactive')
+        return
+      }
       localStorage.setItem('accessToken', response.data?.token)
       router.push('/')
     } catch (error) {
