@@ -7,7 +7,6 @@ use App\Http\Requests\SiteRequest;
 use App\Http\Requests\SortRequest;
 use App\Services\SiteService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class IndexController extends Controller
@@ -22,11 +21,11 @@ class IndexController extends Controller
         return response()->json(["sites" => $data]);
     }
 
-    public function create_item(SiteRequest $request): RedirectResponse
+    public function create_item(SiteRequest $request): JsonResponse
     {
         $data = $request->validated();
         $this->siteService->createSite($data);
-        return redirect()->route('homePage');
+        return response()->json(['message' => 'site created'], 200);
     }
 
     public function search(SearchRequest $request): View

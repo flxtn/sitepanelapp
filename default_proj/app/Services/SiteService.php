@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\DbConnection;
+use App\Models\Domain;
 use App\Models\Hosting;
 use App\Models\Site;
 
@@ -14,17 +16,33 @@ class SiteService
         return $data;
     }
 
-
     public function createSite(array $data)
     {
         $site = new Site();
         $site->domain = $data['domain'];
         $site->description = $data['description'];
-        $site->queries = $data['queries'];
-        $site->hosting = $data['hosting'];
-        $site->status = $data['status'];
+        $site->hosting = $data['hosting'] . " (" . $data['account'] . ")";
+        $site->period = $data['period'];
         $site->user_id = auth()->user()->id;
         $site->save();
+
+        $domain = Domain::where('name', $data['domain'])->first();
+        $domain->is_linked = true;
+        $domain->save();
+
+        $hosting = Hosting::where('name', $data['hosting'])->where('login', $data['account'])->first();
+        $hosting->linked_sites += 1;
+        $hosting->save();
+
+        $dbconnection = new DbConnection();
+        $dbconnection->name = $data['dbname'];
+        $dbconnection->ip = $data['ip'];
+        $dbconnection->port = $data['port'];
+        $dbconnection->login = $data['login'];
+        $dbconnection->password = $data['password'];
+        $dbconnection->table_name = $data['table_name'];
+        $dbconnection->site_id = $site->id;
+        $dbconnection->save();
 
     }
 

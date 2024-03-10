@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sites', function (Blueprint $table) {
+        Schema::create('parsed_infos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('domain');
-            $table->string('description');
-            $table->integer('queries')->default(0);
-            $table->string('hosting');
-            $table->string('status')->default('Not Active');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('email');
+            $table->string('password');
+            $table->foreignId('site_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sites');
+        Schema::dropIfExists('parsed_infos');
     }
 };

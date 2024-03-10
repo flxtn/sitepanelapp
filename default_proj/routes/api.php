@@ -34,4 +34,6 @@ Route::middleware("api")->group(function(){
     Route::post('/create-hosting', [HostingController::class, 'create']);
     Route::delete('/delete-hosting/{id}', [HostingController::class, 'delete']);
     Route::put('/hostings/{id}', [HostingController::class, 'update']);
+    Route::post('/create-site', [IndexController::class, 'create_item']);
+    Route::get('/search-site', [IndexController::class, 'search']);
 });

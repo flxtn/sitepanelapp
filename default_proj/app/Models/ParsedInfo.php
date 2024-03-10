@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DbConnection extends Model
+class ParsedInfo extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'ip',
-        'login',
+        'email',
         'password',
-        'name',
-        'port',
-        'table_name',
         'site_id'
     ];
 
@@ -23,5 +19,4 @@ class DbConnection extends Model
     {
         return $this->belongsTo(Site::class);
     }
-
 }

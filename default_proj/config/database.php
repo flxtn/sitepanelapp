@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\DbConnection;
 use Illuminate\Support\Str;
 
 return [
@@ -35,6 +36,7 @@ return [
 
     'connections' => [
 
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
@@ -62,6 +64,7 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
+
 
         'pgsql' => [
             'driver' => 'pgsql',

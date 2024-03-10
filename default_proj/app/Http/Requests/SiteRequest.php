@@ -18,9 +18,19 @@ class SiteRequest extends FormRequest
         return [
             'domain' => 'required|string',
             'description' => 'required|string',
-            'queries' => 'required|numeric',
             'hosting' => 'required|string',
-            'status' => 'required|in:Active,Not Active',
+            'account' => 'required|string',
+            'period' => 'string',
+            'ip' => 'required|string',
+            'port' => 'required|numeric',
+            'login' => 'required|string',
+            'dbname' => 'required|string',
+            'password' => 'required|string',
+            'db_type' => 'string',
+            'table_name' => 'required|string',
+
+
+
         ];
     }
 }
